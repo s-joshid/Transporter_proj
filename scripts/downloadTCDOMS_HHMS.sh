@@ -3,12 +3,13 @@
 #command line: wget  https://tcdb.org/public/tcDoms.tar.gz
 
 #initialize variables 
-TRANSPORTER_PROJ_DIR = $ ( realpath ../ )
+TRANSPORTER_PROJ_DIR=$(realpath . )
 DATA_DIR="${TRANSPORTER_PROJ_DIR}/data"
 
 #we can check if tcDom directory is made
 #not not made then we make it
-if [ -d "${DATA_DIR}/tcDoms"]; then 
+if [ -d "${DATA_DIR}/tcDoms"]
+    then
         echo "tcDoms directory already made in appropiate place"
     else 
         echo "making tcDoms directory"
@@ -16,10 +17,11 @@ if [ -d "${DATA_DIR}/tcDoms"]; then
     fi
 #this script will then apprend onto it (../data/tcDoms/TcDoms_HHM)
 #where TcDoms_HHM will be tcDoms/Tcdoms.tar/gz
-cd tcDoms/
+cd "${DATA_DIR}/tcDoms"
+
 wget https://tcdb.org/public/tcDoms.tar.gz
 #initialize TCDOMS_HHM 
-TCDOMS_HHM = "tcDoms/tcDoms.tar.gz"
+TCDOMS_HHM = "${DATA_DIR}/tcDoms/tcDoms.tar.gz"
 #if needed, we need to gzip ${tcDoms_HHS}
 if [ ! -e "${DATA_DIR}/${TCDOMS_HMMS}" ]; then
     if [ -e "${DATA_DIR}/${TCDOMS_HMMS}.gz" ]; then
