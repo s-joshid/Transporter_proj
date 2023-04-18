@@ -1,0 +1,5 @@
+#ignore gunzipped file (Data files)
+*.gz
+
+#ignore data directories 
+data/ 
