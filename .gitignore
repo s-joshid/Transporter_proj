@@ -1,0 +1,6 @@
+#ignore gz files (Data files)
+
+*.gz
+
+#ignore sub directories under data
+data/
