@@ -32,3 +32,5 @@ if [ ! -e "${DATA_DIR}/${TCDOMS_HMMS}" ]; then
 fi
 
 echo "tcDoms HHM succesdully downloaded into appropiate directory"
+
+
