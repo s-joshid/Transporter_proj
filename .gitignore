@@ -3,5 +3,6 @@
 *.gz
 
 #ignore sub directories under data
-data/tcDoms
-container/
+data/
+containers/
+
