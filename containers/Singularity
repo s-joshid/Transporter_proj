@@ -3,7 +3,7 @@ From: python:3
 Stage: spython-base
 
 %files
-requirements.txt requirements.txt
+requirements.txt ./requirements.txt
 
 %labels
 MAINTAINER Stephen Blaskowski
