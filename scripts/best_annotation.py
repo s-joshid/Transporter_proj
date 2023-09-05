@@ -10,8 +10,8 @@ def handle_arguments():
         Example usage: ./best_tcDoms.py -f domtblout.tab annotations.csv
         '''
     parser = argparse.ArgumentParser(description = description)
-    parser.add_Argument('input' , type=str, help = 'Input domtblout file' )
-    parser.add_Argument('output', type = str, help = 'Output file')
+    parser.add_argument('input' , type=str, help = 'Input domtblout file' )
+    parser.add_argument('output', type = str, help = 'Output file')
     return parser
 def main():
     parser = handle_arguments()
@@ -30,8 +30,9 @@ def main():
         names = ['Target_name', 'query_name', 'E-value', 'Score']
         ) 
     print("Selecting the best annotation for each protein", flush = True)
-    df['score'] = df['score'].astype(float)
-    best_annot_df = df.iloc[df.groupby(['query_name']).score.idxmax()]
+    
+    df['Score'] = df['Score'].astype(float)
+    best_annot_df = df.iloc[df.groupby(['query_name']).Score.idxmax()]
     best_annot_df.reset_index(drop = True, inplace = True)
 
 
