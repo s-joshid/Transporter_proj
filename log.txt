@@ -1,3 +1,0 @@
-Parsing Domblout file
-Selecting the best annotation for each protein
-Finished

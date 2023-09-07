@@ -27,16 +27,15 @@ def main():
         skiprows = [0,1,2],
         skipfooter = 10,
         usecols = [0,3,4,6,7],
-        names = ['Target_name', 'query_name', 'pfam_ID', 'E-value', 'Score']
+        names = ['Target_name', 'query_name', 'pfam_ID', 'E_value', 'Score']
         ) 
     print("Selecting the best annotation for each protein", flush = True)
-    
-    df['Score'] = df['Score'].astype(float)
-    best_annot_df = df.iloc[df.groupby(['query_name']).Score.idxmax()]
+    df['E_value'] = df['E_value'].astype(float)
+    best_annot_df = df.iloc[df.groupby(['Target_name']).E_value.min()]
     best_annot_df.reset_index(drop = True, inplace = True)
-
 
     best_annot_df.to_csv(args.output, index = False)
     print('Finished')
 if __name__ == "__main__":
     main()
+
