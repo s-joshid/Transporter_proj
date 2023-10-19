@@ -33,7 +33,7 @@ def main():
                  names = ['Target_name', 'query_name', 'pfam_ID', 'E-value', 'Score'],
     )
 
-  pfams_df['pfam_ID'] = pfams_df['pfam_ID'].str.replace(r'\.\d+', '', regex=True )
+  pfams_df['pfam_ID'] = pfams_df['pfam_ID'].astype(str).str.replace(r'\.\d+', '', regex=True )
   tc2p_df = pd.read_csv(args.mapping_file,
                  engine = 'python',
                  skiprows = [0],
@@ -41,11 +41,12 @@ def main():
                  names = ['pfam_ID', 'TC'])
   tc2p_df = pd.DataFrame(tc2p_df.groupby('pfam_ID')['TC'].agg(list).reset_index())
   merged = pd.merge(pfams_df, tc2p_df, how = 'left', on = 'pfam_ID')
-  Protein_df = merged['TC'].str[0].str.split('.', expand = True)
-  Protein_df = Protein_df.iloc[:,[0,1]]
-  Protein_df.columns = ['Transporter_class', 'Transporter_subclass']
-  merged = pd.concat([merged, Protein_df], axis=1)
-  merged_new = merged.dropna(subset=['Transporter_class'])
+  print (merged.head())
+  # splitting the first TC_id in the list of TC IDs
+  merged_new = merged.join(merged['TC'].str[0].str.split('.', expand = True))
+  merged_new = merged_new.rename(columns = ({0:'Transporter_class', 1:'Transporter_subclass'})
+  print (merged_new.head())
+  merged_new = merged_new.dropna(subset = ['Transporter_class'])
   merged_new['Transporter_class'] = merged_new['Transporter_class'].astype(int).map({
     1: 'Channels/pores', 2: 'Electrochemical Potential-driven', 3: 'Primary Active Transporter', 4: 'Group Translocators', 5: 'Transmembrane electron carriers', 6: 'N/a', 7: 'N.a', 8: 'Accessory Factors', 9: 'Incompletely Characterized'
     })
@@ -53,8 +54,9 @@ def main():
   plot = sns.histplot(data=plot_df, x= 'Transporter_class')
   plot.set_xticklabels(plot.get_xticklabels(), rotation = 90)
   plot.set_title('Domains Categorized by Transporter Class for Transport pfams')
+  plot.show()
   print('Finished')
-  if __name__ == "__main__":
-    main()
+if __name__ == "__main__":
+  main()
 
 

@@ -31,7 +31,8 @@ def main():
         ) 
     print("Selecting the best annotation for each protein", flush = True)
     df['E_value'] = df['E_value'].astype(float)
-    best_annot_df = df.iloc[df.groupby(['Target_name']).E_value.min()]
+    #use idxmin  as you want the index that the min is located 
+    best_annot_df = df.iloc[df.groupby(['Target_name']).E_value.idxmin()]
     best_annot_df.reset_index(drop = True, inplace = True)
 
     best_annot_df.to_csv(args.output, index = False)
