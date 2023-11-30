@@ -32,11 +32,11 @@ def main():
   output_path = args.output
   if os.path.isfile(output_path):
       raise FileExistsError('A file by the name of {} already exists.'.format(output_path))
-  mapping_df = pd.read_csv( '../data/hmm_exploration.csv',
-                           engine = 'python',
-                           skiprows = [0],
-                           usecols= [0, 1],
-                           names = ['hmm_ID', 'prot_count']
+  mapping_df = pd.read_csv('./data/custom_mapping.csv',
+                         engine = 'python',
+                         skiprows = [0],
+                         usecols= [0, 1, 2, 3, 4, 5],
+                         names = ['hmm_ID', 'class_', 'subclass', 'family', 'subfamily', 'substrate']
   )
   tcdoms_df = pd.read_csv(args.tc_result,
     engine='python',
@@ -73,7 +73,7 @@ def main():
   prot_counts = pd.DataFrame(df_final.value_counts('hmm_ID'))
   prot_counts = prot_counts.reset_index()
   prot_counts = prot_counts.rename(columns = {0:'counts'})
-  prot_counts = prot_counts.merge(mapping_df, on = 'hmm_id')
+  prot_counts = prot_counts.merge(mapping_df, on = 'hmm_ID')
   print("prot_counts_DF")
   print(prot_counts.head())
   prot_counts.to_csv(args.output, index = False)
