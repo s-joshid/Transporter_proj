@@ -1,5 +1,6 @@
 #script will annotate the North Pacific aa sequences 
 #ensure that the tcDomsHHMs are downloaded under data/tcDoms 
+#download URL:
 #initalizing variables 
 # script is based on being in Transporter_proj folder
 TRANSPORTER_PROJ_DIR=$(realpath . )
