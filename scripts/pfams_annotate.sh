@@ -1,3 +1,4 @@
+#!/bin/bash
 #script will annotate the North Pacific aa sequences 
 #ensure that the pfam HHMs are downloaded under data/
 #URL: https://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.hmm.gz 
