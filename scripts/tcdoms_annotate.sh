@@ -1,6 +1,6 @@
+#!/bin/bash
 #script will annotate the North Pacific aa sequences 
 #ensure that the tcDomsHHMs are downloaded under data/tcDoms 
-#download URL:
 #initalizing variables 
 # script is based on being in Transporter_proj folder
 TRANSPORTER_PROJ_DIR=$(realpath . )
@@ -8,11 +8,11 @@ DATA_DIR="${TRANSPORTER_PROJ_DIR}/data"
 #using test protein file; modify with whatever protein file you would like to annotate 
 PROTEINS_DIR="${DATA_DIR}/knownTransporters.fa"
 OUTPUT="${DATA_DIR}/HMMSearchtcDomsResults.tcDoms.domblout.tab"
-ANNOTATED="${DATA_DIR}/best_tcDoms_annotations.csv"
+ANNOTATED="${DATA_DIR}/best_annotations.csv"
 if [ ! -e ${TRANSPORTER_PROJ_DIR}/containers ]; then
     mkdir ${TRANSPORTER_PROJ_DIR}/containers
 fi
-#now need to make sure hmmer.sif container is in singularity... maybe make this into it's own directory 
+#make sure hmmer.sif container is in singularity
 if [ ! -e ${TRANSPORTER_PROJ_DIR}/containers/hmmer.sif ]; 
 then
     cd ${TRANSPORTER_PROJ_DIR}/containers 
@@ -54,15 +54,13 @@ singularity exec --no-home --bind ${TRANSPORTER_PROJ_DIR}:/Transporter_proj ${TR
 #need the py.sif container installed...
 
 #if container is not installed, install it 
-if [ ! -e "${TRANSPORTER_PROJ_DIR}/containers/py.sif" ]; then 
-    singularity build --fakeroot marferret-py.sif Singularity
-fi 
+#if [ ! -e "${TRANSPORTER_PROJ_DIR}/containers/py.sif" ]; then 
+#    singularity build --fakeroot marferret-py.sif Singularity
+#fi 
 
 #python enviornment should now be set up 
 #now we run the annotations 
-singularity exec --no-home --bind ${TRANSPORTER_PROJ_DIR}:/Transporter_proj \
-    ${TRANSPORTER_PROJ_DIR}/containers/py.sif \
-    "Transporter_proj/scripts/best_tcdoms.py" \
-    "${OUTPUT}" "${ANNOTATED}"
-
-
+#singularity exec --no-home --bind ${TRANSPORTER_PROJ_DIR}:/Transporter_proj \
+#    ${TRANSPORTER_PROJ_DIR}/containers/py.sif \
+#    "Transporter_proj/scripts/best_tcdoms.py" \
+#    "${OUTPUT}" "${ANNOTATED}"
