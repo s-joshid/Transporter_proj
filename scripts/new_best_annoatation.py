@@ -30,25 +30,21 @@ def main():
         )
     print("Parsing Domblout file", flush = True)
      #load in pfam annotations
-    hmms_df = pd.read_csv(args.hmm_results,
+    df_hmm = pd.read_csv(args.hmm_results,
                  engine = 'python',
+		 sep = '\s+',
                  skiprows = [0, 1, 2],
+		 skipfooter = 10, 
                  usecols = [0, 3, 4, 6, 7], 
                  names = ['target_name', 'desc', 'hmm_ID', 'E_value', 'Score']
     )
     #format the pfam_id properly
-    #index: row label
-    #row: row content 
-
-    for r in hmm_df.iterrows():
-        if 'PF' in row[hmm_ID]:
-            hmm_df.loc[index, 'hmm_ID'] = row['hmm_ID'].replace(r'\.\d+', '', regex=True)
-
+    df_hmm.loc[df_hmm['hmm_ID'].str.contains('PF') == True, 'hmm_ID'] = df_hmm['hmm_ID'].replace(r'\.\d+', '', regex=True)
+    print(df_hmm.to_string())
 
 
 
     #combining the pfams & tc dfs + renaming
-    df_hmm = df_hmm.reset_index(drop = 2)
     df_hmm['E_value'] = df_hmm['E_value'].astype(float)
     df_hmm
     #finding best annoatation b/n pfam + tc
