@@ -1,3 +1,21 @@
 Parsing Domblout file
-Selecting the best annotation for each protein
-Finished
+Traceback (most recent call last):
+  File "./scripts/new_best_annoation.py", line 63, in <module>
+    main()
+  File "./scripts/new_best_annoation.py", line 33, in main
+    hmms_df = pd.read_csv(args.hmm_results,
+  File "/mnt/nfs/home/djoshi89/.cache/pypoetry/virtualenvs/transporter-proj-AITkDPeB-py3.8/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 912, in read_csv
+    return _read(filepath_or_buffer, kwds)
+  File "/mnt/nfs/home/djoshi89/.cache/pypoetry/virtualenvs/transporter-proj-AITkDPeB-py3.8/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 577, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+  File "/mnt/nfs/home/djoshi89/.cache/pypoetry/virtualenvs/transporter-proj-AITkDPeB-py3.8/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 1407, in __init__
+    self._engine = self._make_engine(f, self.engine)
+  File "/mnt/nfs/home/djoshi89/.cache/pypoetry/virtualenvs/transporter-proj-AITkDPeB-py3.8/lib/python3.8/site-packages/pandas/io/parsers/readers.py", line 1679, in _make_engine
+    return mapping[engine](f, **self.options)
+  File "/mnt/nfs/home/djoshi89/.cache/pypoetry/virtualenvs/transporter-proj-AITkDPeB-py3.8/lib/python3.8/site-packages/pandas/io/parsers/python_parser.py", line 124, in __init__
+    ) = self._infer_columns()
+  File "/mnt/nfs/home/djoshi89/.cache/pypoetry/virtualenvs/transporter-proj-AITkDPeB-py3.8/lib/python3.8/site-packages/pandas/io/parsers/python_parser.py", line 560, in _infer_columns
+    columns = self._handle_usecols([names], names, num_original_columns)
+  File "/mnt/nfs/home/djoshi89/.cache/pypoetry/virtualenvs/transporter-proj-AITkDPeB-py3.8/lib/python3.8/site-packages/pandas/io/parsers/python_parser.py", line 610, in _handle_usecols
+    raise ParserError(
+pandas.errors.ParserError: Defining usecols without of bounds indices is not allowed. [3, 4, 6, 7] are out of bounds.
