@@ -40,7 +40,7 @@ if [ ! -e "${DATA_DIR}/Pfams/" ]; then
 fi
 
 #tcDoms HMM should be untarred & unzipped at this point 
-TCDOMS_HMMS="${DATA_DIR}/tcDoms/tcDomsGlobal/tcDoms.hmm"
+TCDOMS_HMMS="${DATA_DIR}/tcDoms/tcDoms/tcDomsGlobal/tcDoms.hmm "
 
 #Pfam-A.hmm.gz is downloaded correctly 
 #now checking if we have it unzipped and untarred
@@ -54,7 +54,7 @@ fi
 #pfams HMM should be untarred & unzipped at this point 
 Pfams_HMMS="${DATA_DIR}/Pfams/Pfam-A.hmm "
 
-cat  ${CDOMS_HMMS} ${Pfams_HMMS} > ${DATA_DIR}/pfam_tcdoms_hmms
+cat '${TCDOMS_HMMS}' '${Pfams_HMMS}' > '${DATA_DIR}/pfam_tcdoms_hmms'
 
 HMMS="${DATA_DIR}/pfam_tcdoms_hmms"
 
@@ -65,4 +65,3 @@ singularity exec --no-home --bind ${TRANSPORTER_PROJ_DIR}:/Transporter_proj ${TR
 singularity exec --no-home --bind ${TRANSPORTER_PROJ_DIR}:/Transporter_proj ${TRANSPORTER_PROJ_DIR}/containers/hmmer.sif \
     hmmsearch --domtblout "${OUTPUT}" \
     "${HMMS}" "${PROTEINS_DIR}"
-
