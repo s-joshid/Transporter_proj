@@ -1,2 +1,2 @@
 # Transporter_proj
-Working with transporter protein data 
+Devloping a data pipeline to analyze transport protein data 
