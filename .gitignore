@@ -1,6 +1,9 @@
 #ignore gz files (Data files)
-
 *.gz
+
+#ignore log files
+
+log.txt
 
 #ignore sub directories under data
 data/
