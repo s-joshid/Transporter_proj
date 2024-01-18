@@ -5,16 +5,16 @@ import os
 def handle_arguments():
     description = '''This script parses the tcDoms and pfams domtblout file,
         selects the top scoring annotation for each protein listed in the
-        files, and then outputs a csv of the parsed and down-selected data.
-	Each protein is mapped to it's TCdoms ID if applicable. This 
+        files, and then outputs a csv of the parsed and down-selected data. 
+        each protein is also mapped to it's TCdoms ID if applicable. This 
         mapping file is obtained from running the custom_mapping.py script.
-        Example usage: ./best_annotations.py -f tc.domtblout.tab pfams.domtblout.tab mapping_file.csv annotations.csv
+
+        Example usage: ./best_tcDoms.py -f tc.domtblout.tab pfams.domtblout.tab annotations.csv
         '''
     parser = argparse.ArgumentParser(description = description)
-    parser.add_argument('tcdoms' , type=str, help = 'Input domtblout file' )
-    parser.add_argument('pfams' , type=str, help = 'Input domtblout file' )
+    parser.add_argument('hmm_results' , type=str, help = 'Input combined hmmsearch domtblout file' )
     parser.add_argument('mapping', type=str, help = 'Input path to custom mapping file')
-    parser.add_argument('output', type = str, help = 'Output file')
+    parser.add_argument('output', type=str, help = 'Output file')
     return parser
 def main():
     parser = handle_arguments()
@@ -30,34 +30,28 @@ def main():
         )
     print("Parsing Domblout file", flush = True)
      #load in pfam annotations
-    pfams_df = pd.read_csv(args.pfams,
+    df_hmm = pd.read_csv(args.hmm_results,
                  engine = 'python',
-                 skiprows = [0],
-                 names = ['target_name', 'query_name', 'hmm_ID', 'E_value', 'Score']
+		 sep = '\s+',
+                 skiprows = [0, 1, 2],
+		 skipfooter = 10, 
+                 usecols = [0, 3, 4, 6, 7], 
+                 names = ['target_name', 'desc', 'hmm_ID', 'E_value', 'Score']
     )
     #format the pfam_id properly
-    pfams_df['hmm_ID'] = pfams_df['hmm_ID'].str.replace(r'\.\d+', '', regex=True )
-    #load in tcdoms
-    tcdoms_df = pd.read_csv(
-                #filepath
-                args.tcdoms,
-                engine='python',
-                skiprows=[0],
-                #usecols returns subset of cols
-                usecols=[0,1,3,4],
-                #names what col names you want to use
-                #have to switch target and query name to match pfams method
-                names=['hmm_ID' , 'target_name', 'E_value', 'Score']
-            )
+    df_hmm.loc[df_hmm['hmm_ID'].str.contains('PF') == True, 'hmm_ID'] = df_hmm['hmm_ID'].replace(r'\.\d+', '', regex=True)
+    print(df_hmm.to_string())
+
+
+
     #combining the pfams & tc dfs + renaming
-    df_hmm = pd.concat([pfams_df, tcdoms_df])
-    df_hmm = df_hmm.reset_index(drop = 2)
     df_hmm['E_value'] = df_hmm['E_value'].astype(float)
     df_hmm
     #finding best annoatation b/n pfam + tc
     print("Selecting the best annotation for each protein", flush = True)
     df_final = df_hmm.iloc[df_hmm.groupby(['target_name']).E_value.idxmin()]
     df_final = df_final.reset_index(drop = 2)
+    #incorporating mapping to TC ID
     df_final = df_final.merge(mapping_df, on = 'hmm_ID')
     df_final.to_csv(args.output, index = False)
     print('Finished')
